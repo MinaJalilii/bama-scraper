@@ -4,6 +4,7 @@ import json
 from config import DB_CONFIG
 import signal
 import sys
+import time
 
 
 def connect_to_db():
@@ -44,6 +45,7 @@ def scrape_bama_data(url):
     connection = connect_to_db()
     if connection is None:
         return
+    # start_time = time.time()
     try:
         session = requests_html.HTMLSession()
         encountered_ads = []
@@ -71,8 +73,6 @@ def scrape_bama_data(url):
                     else:
                         continue
                 print(j)
-                if j == 10:
-                    break
                 j += 1
             except KeyboardInterrupt:
                 print("KeyboardInterrupt detected. Exiting...")
@@ -81,6 +81,9 @@ def scrape_bama_data(url):
                 print(f"An error occurred: {e}")
                 break
     finally:
+        # end_time = time.time()
+        # execution_time = end_time - start_time
+        # print(f"Execution time: {execution_time} seconds")
         if connection:
             connection.close()
 
