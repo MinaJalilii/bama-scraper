@@ -64,9 +64,6 @@ def scrape_bama_data(url):
                     else:
                         continue
                 insert_ad_data(connection, ads_list)
-                if j == 10:
-                    break
-                j += 1
             except KeyboardInterrupt:
                 print("KeyboardInterrupt detected. Exiting...")
                 sys.exit(0)
