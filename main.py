@@ -38,6 +38,7 @@ def insert_ad_data(connection, ads_list):
     cursor.execute(query, values)
     connection.commit()
     cursor.close()
+    return cursor.rowcount
 
 
 def scrape_bama_data(url):
@@ -47,6 +48,7 @@ def scrape_bama_data(url):
     try:
         session = requests_html.HTMLSession()
         j = 0
+        s = 0
         while True:
             try:
                 r = session.get(f'{url}?pageIndex={j}')
@@ -63,7 +65,13 @@ def scrape_bama_data(url):
                         ads_list.append((i, code))
                     else:
                         continue
-                insert_ad_data(connection, ads_list)
+                result = insert_ad_data(connection, ads_list)
+                if result == 0:
+                    s += 1
+                if s >= 3:
+                    return "duplicate data..."
+                print(j)
+                j += 1
             except KeyboardInterrupt:
                 print("KeyboardInterrupt detected. Exiting...")
                 sys.exit(0)
