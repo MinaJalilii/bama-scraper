@@ -31,18 +31,11 @@ def generate_insert_query(table_name, columns, values_list):
 
 
 def insert_ad_data(connection, ads_list):
-    s = 0
     table_name = "ads"
     columns = ["ad_data", "ad_code"]
     cursor = connection.cursor()
     query, values = generate_insert_query(table_name, columns, ads_list)
     cursor.execute(query, values)
-    if cursor.rowcount == 0:
-        s += 1
-    if s >= 3:
-        connection.commit()
-        cursor.close()
-        return "Ads are repeating..."
     connection.commit()
     cursor.close()
 
