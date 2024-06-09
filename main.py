@@ -68,9 +68,15 @@ def scrape_bama_data(url):
                 result = insert_ad_data(connection, ads_list)
                 if result == 0:
                     s += 1
+                else:
+                    s = 0
+                print('j', j)
+                print('s', s)
+                print('result', result)
+                print('----------------------')
                 if s >= 3:
-                    return "duplicate data..."
-                print(j)
+                    print("3 repeated pages with zero result detected. Exiting loop.")
+                    break
                 j += 1
             except KeyboardInterrupt:
                 print("KeyboardInterrupt detected. Exiting...")
