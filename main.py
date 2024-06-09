@@ -1,11 +1,9 @@
 import requests_html
 import psycopg2
 import json
-from psycopg2.extras import execute_values
 from config import DB_CONFIG
 import signal
 import sys
-import time
 
 
 def connect_to_db():
@@ -70,9 +68,9 @@ def scrape_bama_data(url):
                     s += 1
                 else:
                     s = 0
-                print('j', j)
-                print('s', s)
-                print('result', result)
+                print('page:', j)
+                print('repeat counter:', s)
+                print('Insert result:', result)
                 print('----------------------')
                 if s >= 3:
                     print("3 repeated pages with zero result detected. Exiting loop.")
