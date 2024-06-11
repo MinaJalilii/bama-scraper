@@ -29,8 +29,8 @@ def generate_insert_query(table_name, columns, values_list):
 
 
 def insert_ad_data(connection, ads_list):
-    table_name = "ads"
-    columns = ["ad_data", "ad_code"]
+    table_name = "raw_ads"
+    columns = ["raw_data", "ad_code"]
     cursor = connection.cursor()
     query, values = generate_insert_query(table_name, columns, ads_list)
     cursor.execute(query, values)
