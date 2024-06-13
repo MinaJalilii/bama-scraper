@@ -26,11 +26,12 @@ def pars_vehicles(url):
                     model_fa = item.get("title", "").replace(brand_title_fa, "").strip()
                     model_en = item.get("value", "").replace(f"{brand_value_en},", "").strip()
                     keywords_model = item.get("keywords", "")
+                    title_en = brand_value_en + ' ' + model_en
+                    title_fa = brand_title_fa + ' ' + model_fa
                     cursor.execute(
-                        """
-                        INSERT INTO cars (make_fa, make_en, model_fa, model_en, keywords) 
-                        VALUES (%s, %s, %s, %s, %s)""",
-                        (brand_title_fa, brand_value_en, model_fa, model_en, keywords_model)
+                        """INSERT INTO cars (make_fa, make_en, model_fa, model_en, keywords, title_fa, title_en) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                        (brand_title_fa, brand_value_en, model_fa, model_en, keywords_model, title_fa, title_en)
                     )
     conn.commit()
     cursor.close()
