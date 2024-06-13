@@ -22,9 +22,10 @@ class RawAd(Base):
 class Ad(Base):
     __tablename__ = 'ads'
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    car_title = Column(Text, nullable=False)
+    title = Column(Text, nullable=False)
     price = Column(BigInteger, nullable=False)
-    location = Column(Text)
+    price_type = Column(Text, nullable=False)
+    location = Column(Text, nullable=False)
     dealer_type = Column(Text, nullable=False)
     created_at = Column(DateTime(timezone=False), nullable=False)
     code = Column(Text, nullable=False, unique=True)
@@ -41,22 +42,34 @@ try:
         print("CODE:", ad_code)
 
         if raw_data is not None:
-            price = int(raw_data.get('price', {}).get('price', '0').replace(',', ''))
+            price = 0
+            if raw_data.get('price').get('type') == 'lumpsum':
+                price = int(raw_data.get('price').get('price').replace(',', ''))
+                price_type = 'with price'
+            elif raw_data.get('price').get('type') == 'installment':
+                price_type = 'installment'
+            elif raw_data.get('price').get('type') == 'negotiable':
+                price_type = 'negotiable'
+            else:
+                price_type = 'unknown'
             if raw_data.get('dealer') is not None:
                 dealer_type = raw_data.get('dealer', {}).get('type')
             else:
                 dealer_type = 'شخصی'
-            car_title = raw_data.get('detail', {}).get('title', '')
+            title = raw_data.get('detail', {}).get('title', '')
             location = raw_data.get('detail', {}).get('location', '')
             created_at = raw_data.get('detail', {}).get('modified_date', None)
             code = raw_data.get('detail', {}).get('code', '')
 
-            stmt = insert(Ad).values(car_title=car_title,
-                                     price=price,
-                                     location=location,
-                                     dealer_type=dealer_type,
-                                     created_at=created_at,
-                                     code=code).on_conflict_do_nothing(index_elements=['code'])
+            stmt = insert(Ad).values(
+                title=title,
+                price=price,
+                price_type=price_type,
+                location=location,
+                dealer_type=dealer_type,
+                created_at=created_at,
+                code=code
+            ).on_conflict_do_nothing(index_elements=['code'])
             session.execute(stmt)
     session.commit()
 
