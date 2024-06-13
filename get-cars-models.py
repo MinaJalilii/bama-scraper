@@ -3,7 +3,7 @@ import psycopg2
 from config import DB_CONFIG
 
 
-def pars_vehicles(url):
+def parse_vehicles(url):
     conn = psycopg2.connect(
         dbname=DB_CONFIG['dbname'],
         user=DB_CONFIG['user'],
