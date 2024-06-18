@@ -6,6 +6,19 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
 from config import DB_CONFIG
+import logging
+
+error_logger = logging.getLogger('error_logger')
+error_logger.setLevel(logging.ERROR)
+error_handler = logging.FileHandler('cars_error.log', mode='w', encoding='utf-8')
+error_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+error_logger.addHandler(error_handler)
+
+info_logger = logging.getLogger('info_logger')
+info_logger.setLevel(logging.INFO)
+info_handler = logging.FileHandler('ad_info.log', mode='w')
+info_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+info_logger.addHandler(info_handler)
 
 Base = declarative_base()
 db_url = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@" \
@@ -17,10 +30,10 @@ Session = sessionmaker(bind=engine)
 class Car(Base):
     __tablename__ = 'cars'
     id = Column(Integer, primary_key=True)
-    make_en = Column(Text, nullable=False)
-    make_fa = Column(Text, nullable=False)
-    model_en = Column(Text, nullable=False)
-    model_fa = Column(Text, nullable=False)
+    make_en = Column(Text)
+    make_fa = Column(Text, unique=True, nullable=False)
+    model_en = Column(Text, unique=True, nullable=False)
+    model_fa = Column(Text)
     min_price = Column(Integer)
     max_price = Column(Integer)
     created_year = Column(Text)
@@ -66,7 +79,6 @@ class Ad(Base):
 
 
 Base.metadata.create_all(engine)
-
 
 session = Session()
 
@@ -136,7 +148,7 @@ try:
             code = raw_data.get('detail', {}).get('code', '')
             car_id = get_car_id(make, model)
             if not car_id:
-                # TODO: log the situation
+                error_logger.error(f"newcar({title})")
                 continue
             stmt1 = insert(Ad).values(
                 title=title,
@@ -150,7 +162,7 @@ try:
                 dealer_id=dealer_id
             ).on_conflict_do_nothing(index_elements=['code'])
             session.execute(stmt1)
-            print('one ad parsed..')
+            info_logger.info(f"ad with code '{code}' parsed..")
             session.query(RawAd).filter(RawAd.id == raw_id).update({'process_at': datetime.now(pytz.utc)})
 
     session.commit()

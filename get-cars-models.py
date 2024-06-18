@@ -38,4 +38,4 @@ def parse_vehicles(url):
 
 
 bama_url = 'https://bama.ir/cad/api/filter/vehicle'
-pars_vehicles(bama_url)
+parse_vehicles(bama_url)
