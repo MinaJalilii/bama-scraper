@@ -33,7 +33,6 @@ db_url = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@" \
 engine = create_engine(db_url)
 Session = sessionmaker(bind=engine)
 
-Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 
