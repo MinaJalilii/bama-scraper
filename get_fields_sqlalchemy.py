@@ -64,6 +64,8 @@ class Ad(Base):
     price_type = Column(Text, nullable=False)
     location = Column(Text, nullable=False)
     dealer_type = Column(Text, nullable=False)
+    year = Column(Text, nullable=False)
+    mileage = Column(Text, nullable=False)
     modified_date = Column(DateTime(timezone=False), nullable=False)
     code = Column(Text, nullable=False, unique=True)
     car_id = Column(BigInteger, ForeignKey('cars.id'), nullable=False)
@@ -138,6 +140,8 @@ try:
             location = raw_data.get('detail', {}).get('location', '')
             modified_date = raw_data.get('detail', {}).get('modified_date', None)
             code = raw_data.get('detail', {}).get('code', '')
+            year = raw_data.get('detail', {}).get('year', '')
+            mileage = raw_data.get('detail', {}).get('mileage', '')
             car_id = get_car_id(make, model)
             if not car_id:
                 error_logger.error(f"newcar({title})")
@@ -151,7 +155,9 @@ try:
                 modified_date=modified_date,
                 code=code,
                 car_id=car_id,
-                dealer_id=dealer_id
+                dealer_id=dealer_id,
+                year=year,
+                mileage=mileage
             ).on_conflict_do_nothing(index_elements=['code'])
             session.execute(stmt1)
             info_logger.info(f"ad with code '{code}' parsed..")
