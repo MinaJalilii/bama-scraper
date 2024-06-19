@@ -1,5 +1,6 @@
 2024-06-19 11:07:58,898 - info - INFO - Starting vehicle parsing process.
 2024-06-19 11:07:59,365 - info - INFO - Vehicle parsing completed successfully.
+<<<<<<< HEAD
 2024-06-19 11:18:42,851 - info - INFO - ad with code 'rsudkuew' parsed..
 2024-06-19 11:18:42,898 - info - INFO - ad with code 'ajprchnx' parsed..
 2024-06-19 11:18:42,912 - info - INFO - ad with code '5iyak9dd' parsed..
@@ -1100,3 +1101,7 @@
 2024-06-19 11:49:20,349 - info - INFO - ad with code 'hejwsiaf' parsed..
 2024-06-19 11:49:20,357 - info - INFO - ad with code 'njo2viv3' parsed..
 2024-06-19 11:49:20,363 - info - INFO - ad with code 'brplwsob' parsed..
+=======
+2024-06-19 12:15:27,392 - info - INFO - Starting vehicle parsing process.
+2024-06-19 12:15:27,874 - info - INFO - Vehicle parsing completed successfully.
+>>>>>>> feature/get-cars-make-models
