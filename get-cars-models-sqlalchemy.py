@@ -1,8 +1,9 @@
-from sqlalchemy import create_engine, Column, Integer, Text, UniqueConstraint
+from sqlalchemy import create_engine, Column, Integer, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.dialects.postgresql import insert
 import requests_html
 from config import DB_CONFIG
+from custom_loggers import info_logger, error_logger
 
 Base = declarative_base()
 
@@ -38,6 +39,7 @@ def parse_vehicles(url):
     r = html_session.get(url)
     r.raise_for_status()
     js = r.json()
+    info_logger.info("Starting vehicle parsing process.")
 
     try:
         for brand in js["data"]:
@@ -77,9 +79,12 @@ def parse_vehicles(url):
                         session.execute(insert_stmt)
 
         session.commit()
+        info_logger.info("Vehicle parsing completed successfully.")
+
     except Exception as e:
         session.rollback()
-        print(f"Error: {e}")
+        error_logger.error(f"Error occurred during parsing: {e}", exc_info=True)
+
     finally:
         session.close()
 
