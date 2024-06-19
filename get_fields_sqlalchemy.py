@@ -6,19 +6,8 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
 from config import DB_CONFIG
-import logging
+from custom_loggers import info_logger, error_logger
 
-error_logger = logging.getLogger('error_logger')
-error_logger.setLevel(logging.ERROR)
-error_handler = logging.FileHandler('cars_error.log', mode='w', encoding='utf-8')
-error_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-error_logger.addHandler(error_handler)
-
-info_logger = logging.getLogger('info_logger')
-info_logger.setLevel(logging.INFO)
-info_handler = logging.FileHandler('ad_info.log', mode='w')
-info_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-info_logger.addHandler(info_handler)
 
 Base = declarative_base()
 db_url = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@" \
@@ -29,11 +18,11 @@ Session = sessionmaker(bind=engine)
 
 class Car(Base):
     __tablename__ = 'cars'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     make_en = Column(Text)
-    make_fa = Column(Text, unique=True, nullable=False)
-    model_en = Column(Text, unique=True, nullable=False)
-    model_fa = Column(Text)
+    make_fa = Column(Text)
+    model_en = Column(Text, unique=True)
+    model_fa = Column(Text, nullable=False, unique=True)
     min_price = Column(Integer)
     max_price = Column(Integer)
     created_year = Column(Text)
