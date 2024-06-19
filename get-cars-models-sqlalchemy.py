@@ -52,8 +52,8 @@ def parse_vehicles(url):
                         model_fa = item.get("title", "").replace(brand_title_fa, "").strip()
                         model_en = item.get("value", "").replace(f"{brand_value_en},", "").strip()
                         keywords_model = item.get("keywords", "")
-                        title_en = f"{brand_value_en}، {model_en}"
-                        title_fa = f"{brand_title_fa}، {model_fa}"
+                        title_en = brand_value_en + '-' + model_en
+                        title_fa = brand_title_fa + '-' + model_fa
 
                         car = Car(
                             make_fa=brand_title_fa,
@@ -73,9 +73,7 @@ def parse_vehicles(url):
                             keywords=keywords_model,
                             title_fa=title_fa,
                             title_en=title_en
-                        ).on_conflict_do_nothing(
-                            index_elements=['model_fa', 'model_en']
-                        )
+                        ).on_conflict_do_nothing()
                         session.execute(insert_stmt)
 
         session.commit()
@@ -83,7 +81,7 @@ def parse_vehicles(url):
 
     except Exception as e:
         session.rollback()
-        error_logger.error(f"Error occurred during parsing: {e}", exc_info=True)
+        error_logger.error(f"Error occurred during vehicle parsing: {e}", exc_info=True)
 
     finally:
         session.close()
