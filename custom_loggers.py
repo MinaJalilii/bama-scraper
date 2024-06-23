@@ -4,7 +4,7 @@ import logging
 def create_logger(name, level, file_name):
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    file_handler = logging.FileHandler(file_name, mode='a', encoding='utf-8')
+    file_handler = logging.FileHandler(file_name, mode='w', encoding='utf-8')
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)

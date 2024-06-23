@@ -7,6 +7,10 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
+from dotenv import load_dotenv
+import os
+
+load_dotenv('.env')
 
 
 def read_logs_from_file(log_file):
@@ -24,8 +28,7 @@ def read_logs_from_file(log_file):
 
 
 Base = declarative_base()
-db_url = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@" \
-         f"{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}"
+db_url = os.getenv("DB_URL")
 engine = create_engine(db_url)
 Session = sessionmaker(bind=engine)
 

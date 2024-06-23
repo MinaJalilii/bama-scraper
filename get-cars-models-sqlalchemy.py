@@ -4,7 +4,10 @@ from sqlalchemy.dialects.postgresql import insert
 import requests_html
 from config import DB_CONFIG
 from custom_loggers import info_logger, error_logger
+from dotenv import load_dotenv
+import os
 
+load_dotenv('.env')
 Base = declarative_base()
 
 
@@ -27,8 +30,7 @@ class Car(Base):
     )
 
 
-db_url = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@" \
-         f"{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}"
+db_url = os.getenv('DB_URL')
 
 engine = create_engine(db_url)
 Session = sessionmaker(bind=engine)
