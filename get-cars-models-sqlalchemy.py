@@ -80,6 +80,7 @@ def parse_vehicles(url):
                             title_en=title_en
                         ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
                         session.execute(insert_stmt)
+                        info_logger.info(f"One vehicle added: {title_fa}")
 
         session.commit()
         info_logger.info("Vehicle parsing completed successfully.")
