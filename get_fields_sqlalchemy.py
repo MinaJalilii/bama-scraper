@@ -23,11 +23,6 @@ class Car(Base):
     make_fa = Column(Text, nullable=False)
     model_en = Column(Text, nullable=False)
     model_fa = Column(Text, nullable=False)
-    min_price = Column(Integer)
-    max_price = Column(Integer)
-    avg_price = Column(Integer)
-    created_year = Column(Text)
-    level_impact = Column(Text)
     keywords = Column(Text)
     title_fa = Column(Text, nullable=False)
     title_en = Column(Text, nullable=False)
@@ -80,13 +75,13 @@ class Ad(Base):
 class PriceReference(Base):
     __tablename__ = 'price_reference'
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    make = Column(Text, nullable=False)
-    model = Column(Text, nullable=False)
+    car_id = Column(BigInteger, ForeignKey('cars.id'), nullable=False)
     year = Column(Text, nullable=False)
     avg_price = Column(BigInteger, nullable=False)
-    count = Column(BigInteger, nullable=False)
+    min_price = Column(BigInteger, nullable=False)
+    max_price = Column(BigInteger, nullable=False)
     __table_args__ = (
-        UniqueConstraint('make', 'model', 'year', name='uq_make_model_year'),
+        UniqueConstraint('car_id', 'year', name='uq_car_id_year'),
     )
 
 
@@ -194,6 +189,7 @@ def parse_ads(session):
                 images = raw_data.get('images', [])
                 if not car_id:
                     error_logger.error(f"newcar({title})")
+                    print(f"New car {title}")
                     continue
                 stmt1 = insert(Ad).values(
                     title=title,
@@ -212,6 +208,7 @@ def parse_ads(session):
                 ).on_conflict_do_nothing(index_elements=['code'])
                 session.execute(stmt1)
                 info_logger.info(f"ad with code '{code}' parsed..")
+                print(f"ad parsed : {code}")
                 session.query(RawAd).filter(RawAd.id == raw_id).update({'process_at': datetime.now(pytz.utc)})
         session.commit()
 
@@ -228,8 +225,7 @@ def determine_level(session):
 
     for ad, car in ads:
         result = session.query(price_references.avg_price).filter(
-            price_references.make == car.make_en,
-            price_references.model == car.model_en,
+            price_references.car_id == car.id,
             price_references.year == ad.year
         ).first()
 
@@ -247,4 +243,40 @@ def determine_level(session):
     session.close()
 
 
-determine_level(session)
+def save_avg_price_reference(session):
+    query = session.query(
+        Car.id,
+        func.round(func.avg(Ad.price)).label('average_price'),
+        func.min(Ad.price).label('min_price'),
+        func.max(Ad.price).label('max_price'),
+        Ad.year
+    ).join(Car).filter(
+        Ad.price_type == 'with price',
+        Ad.price >= 1000000000
+    ).group_by(
+        Car.id,
+        Ad.year
+    )
+    try:
+        for car_id, average_price, min_price, max_price, year in query:
+            print(car_id, average_price, min_price, max_price, year)
+            price_ref = PriceReference(
+                car_id=car_id,
+                avg_price=int(average_price),
+                min_price=int(min_price),
+                max_price=int(max_price),
+                year=year,
+            )
+            session.add(price_ref)
+            print(f"added -> {car_id} - {year}")
+        session.commit()
+        info_logger.info("Price references inserted successfully.")
+    except Exception as e:
+        session.rollback()
+        error_logger.error(f"Error occurred: {e}")
+        print(e)
+    finally:
+        session.close()
+
+
+parse_ads(session)

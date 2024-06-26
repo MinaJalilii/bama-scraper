@@ -77,9 +77,11 @@ def parse_vehicles(url):
                         ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
                         session.execute(insert_stmt)
                         info_logger.info(f"One vehicle added: {title_fa}")
+                        print(f"One vehicle added: {title_fa}")
 
         session.commit()
         info_logger.info("Vehicle parsing completed successfully.")
+        print("Vehicle parsing completed successfully.")
 
     except Exception as e:
         session.rollback()
