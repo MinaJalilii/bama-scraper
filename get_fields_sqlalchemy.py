@@ -69,6 +69,8 @@ class Ad(Base):
     dealer_type = Column(Text, nullable=False)
     year = Column(Text, nullable=False)
     mileage = Column(Text, nullable=False)
+    ad_image = Column(Text, nullable=True)
+    images = Column(JSONB, default=list, nullable=True)
     modified_date = Column(DateTime(timezone=False), nullable=False)
     code = Column(Text, nullable=False, unique=True)
     car_id = Column(BigInteger, ForeignKey('cars.id'), nullable=False)
@@ -188,6 +190,8 @@ def parse_ads(session):
                 year = raw_data.get('detail', {}).get('year', '')
                 mileage = raw_data.get('detail', {}).get('mileage', '')
                 car_id = get_car_id(make, model)
+                ad_image = raw_data.get('detail', {}).get('image', '')
+                images = raw_data.get('images', [])
                 if not car_id:
                     error_logger.error(f"newcar({title})")
                     continue
@@ -202,7 +206,9 @@ def parse_ads(session):
                     car_id=car_id,
                     dealer_id=dealer_id,
                     year=year,
-                    mileage=mileage
+                    mileage=mileage,
+                    ad_image=ad_image,
+                    images=images
                 ).on_conflict_do_nothing(index_elements=['code'])
                 session.execute(stmt1)
                 info_logger.info(f"ad with code '{code}' parsed..")
