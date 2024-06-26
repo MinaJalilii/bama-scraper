@@ -80,6 +80,7 @@ class PriceReference(Base):
     avg_price = Column(BigInteger, nullable=False)
     min_price = Column(BigInteger, nullable=False)
     max_price = Column(BigInteger, nullable=False)
+    count = Column(Integer, nullable=True)
     __table_args__ = (
         UniqueConstraint('car_id', 'year', name='uq_car_id_year'),
     )
@@ -243,8 +244,9 @@ def determine_level(session):
     session.close()
 
 
-def save_avg_price_reference(session):
+def save_price(session):
     query = session.query(
+        func.count(Car.id).label('ad_count'),
         Car.id,
         func.round(func.avg(Ad.price)).label('average_price'),
         func.min(Ad.price).label('min_price'),
@@ -258,25 +260,25 @@ def save_avg_price_reference(session):
         Ad.year
     )
     try:
-        for car_id, average_price, min_price, max_price, year in query:
-            print(car_id, average_price, min_price, max_price, year)
-            price_ref = PriceReference(
+        for count, car_id, average_price, min_price, max_price, year in query:
+            price_stmt = insert(PriceReference).values(
+                count=count,
                 car_id=car_id,
                 avg_price=int(average_price),
                 min_price=int(min_price),
                 max_price=int(max_price),
                 year=year,
-            )
-            session.add(price_ref)
+            ).on_conflict_do_nothing(index_elements=['car_id', 'year'])
+            session.execute(price_stmt)
             print(f"added -> {car_id} - {year}")
         session.commit()
         info_logger.info("Price references inserted successfully.")
     except Exception as e:
         session.rollback()
         error_logger.error(f"Error occurred: {e}")
-        print(e)
+        print(f"error: {e}")
     finally:
         session.close()
 
 
-parse_ads(session)
+save_price(session)

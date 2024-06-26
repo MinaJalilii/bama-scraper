@@ -130,3 +130,5 @@ DETAIL:  Key (car_id, year)=(960, 2015) already exists.
 2024-06-26 16:46:35,928 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
 2024-06-26 16:46:35,936 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
 2024-06-26 16:46:35,941 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 17:11:01,003 - error_logger - ERROR - Error occurred: set parameter must be a non-empty dictionary or a ColumnCollection such as the `.c.` collection of a Table object
+2024-06-26 17:11:49,241 - error_logger - ERROR - Error occurred: set parameter must be a non-empty dictionary or a ColumnCollection such as the `.c.` collection of a Table object
