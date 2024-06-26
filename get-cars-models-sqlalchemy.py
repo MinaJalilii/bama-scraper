@@ -13,18 +13,14 @@ Base = declarative_base()
 
 class Car(Base):
     __tablename__ = 'cars'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    make_en = Column(Text)
-    make_fa = Column(Text)
-    model_en = Column(Text)
-    model_fa = Column(Text)
-    min_price = Column(Integer)
-    max_price = Column(Integer)
-    created_year = Column(Text)
-    level_impact = Column(Text)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    make_en = Column(Text, nullable=False)
+    make_fa = Column(Text, nullable=False)
+    model_en = Column(Text, nullable=False)
+    model_fa = Column(Text, nullable=False)
     keywords = Column(Text)
-    title_fa = Column(Text)
-    title_en = Column(Text)
+    title_fa = Column(Text, nullable=False)
+    title_en = Column(Text, nullable=False)
     __table_args__ = (
         UniqueConstraint('make_fa', 'model_fa', name='uq_make_model'),
     )
