@@ -26,6 +26,14 @@ class Car(Base):
     )
 
 
+class Make(Base):
+    __tablename__ = 'makes'
+
+    id = Column(Integer, primary_key=True)
+    make = Column(Text, unique=True, nullable=False)
+    default_price = Column(Integer)
+
+
 db_url = os.getenv('DB_URL')
 
 engine = create_engine(db_url)
@@ -56,17 +64,11 @@ def parse_vehicles(url):
                         title_en = brand_value_en + '-' + model_en
                         title_fa = brand_title_fa + '-' + model_fa
 
-                        car = Car(
-                            make_fa=brand_title_fa,
-                            make_en=brand_value_en,
-                            model_fa=model_fa,
-                            model_en=model_en,
-                            keywords=keywords_model,
-                            title_fa=title_fa,
-                            title_en=title_en
-                        )
+                        make_stmt = insert(Make).values(
+                            make=brand_value_en,
+                        ).on_conflict_do_nothing(index_elements=['make'])
 
-                        insert_stmt = insert(Car).values(
+                        car_stmt = insert(Car).values(
                             make_fa=brand_title_fa,
                             make_en=brand_value_en,
                             model_fa=model_fa,
@@ -75,7 +77,8 @@ def parse_vehicles(url):
                             title_fa=title_fa,
                             title_en=title_en
                         ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
-                        session.execute(insert_stmt)
+                        session.execute(make_stmt)
+                        session.execute(car_stmt)
                         info_logger.info(f"One vehicle added: {title_fa}")
                         print(f"One vehicle added: {title_fa}")
 
