@@ -31,14 +31,13 @@ class Make(Base):
 
     id = Column(Integer, primary_key=True)
     make = Column(Text, unique=True, nullable=False)
-    default_price = Column(Integer)
+    default_price = Column(Integer, nullable=True)
 
 
 db_url = os.getenv('DB_URL')
 
 engine = create_engine(db_url)
 Session = sessionmaker(bind=engine)
-
 Base.metadata.create_all(engine)
 
 
@@ -55,7 +54,12 @@ def parse_vehicles(url):
             if brand["type"] == "brand" and "items" in brand:
                 brand_title_fa = brand.get("title", "")
                 brand_value_en = brand.get("value", "")
-
+                make_stmt = insert(Make).values(
+                    make=brand_value_en,
+                    default_price=None
+                ).on_conflict_do_nothing(index_elements=['make'])
+                session.execute(make_stmt)
+                session.commit()
                 for item in brand["items"]:
                     if item["type"] == "model":
                         model_fa = item.get("title", "").replace(brand_title_fa, "").strip()
@@ -63,10 +67,6 @@ def parse_vehicles(url):
                         keywords_model = item.get("keywords", "")
                         title_en = brand_value_en + '-' + model_en
                         title_fa = brand_title_fa + '-' + model_fa
-
-                        make_stmt = insert(Make).values(
-                            make=brand_value_en,
-                        ).on_conflict_do_nothing(index_elements=['make'])
 
                         car_stmt = insert(Car).values(
                             make_fa=brand_title_fa,
@@ -77,7 +77,6 @@ def parse_vehicles(url):
                             title_fa=title_fa,
                             title_en=title_en
                         ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
-                        session.execute(make_stmt)
                         session.execute(car_stmt)
                         info_logger.info(f"One vehicle added: {title_fa}")
                         print(f"One vehicle added: {title_fa}")
