@@ -105,26 +105,49 @@ def get_dealer_id(bama_id):
 
 
 def calculate_level(avg_price):
-    if 1000000000 <= avg_price < 2000000000:
+    level_1_min = int(os.getenv('LEVEL_1_MIN', 0))
+    level_2_min = int(os.getenv('LEVEL_2_MIN', 300000000))
+    level_3_min = int(os.getenv('LEVEL_3_MIN', 600000000))
+    level_4_min = int(os.getenv('LEVEL_4_MIN', 1000000000))
+    level_5_min = int(os.getenv('LEVEL_5_MIN', 3000000000))
+    level_6_min = int(os.getenv('LEVEL_6_MIN', 5000000000))
+    level_7_min = int(os.getenv('LEVEL_7_MIN', 7000000000))
+    level_8_min = int(os.getenv('LEVEL_8_MIN', 9000000000))
+    level_9_min = int(os.getenv('LEVEL_9_MIN', 11000000000))
+    level_10_min = int(os.getenv('LEVEL_10_MIN', 130000000000))
+    level_11_min = int(os.getenv('LEVEL_11_MIN', 150000000000))
+    level_12_min = int(os.getenv('LEVEL_12_MIN', 170000000000))
+    level_13_min = int(os.getenv('LEVEL_13_MIN', 190000000000))
+    level_max = int(os.getenv('LEVEL_MAX', 100000000000))
+
+    if level_1_min <= avg_price < level_2_min:
         return 1
-    elif 2000000000 <= avg_price < 3000000000:
+    elif level_2_min <= avg_price < level_3_min:
         return 2
-    elif 3000000000 <= avg_price < 4000000000:
+    elif level_3_min <= avg_price < level_4_min:
         return 3
-    elif 4000000000 <= avg_price < 5000000000:
+    elif level_4_min <= avg_price < level_5_min:
         return 4
-    elif 5000000000 <= avg_price < 6000000000:
+    elif level_5_min <= avg_price < level_6_min:
         return 5
-    elif 6000000000 <= avg_price < 7000000000:
+    elif level_6_min <= avg_price < level_7_min:
         return 6
-    elif 7000000000 <= avg_price < 8000000000:
+    elif level_7_min <= avg_price < level_8_min:
         return 7
-    elif 8000000000 <= avg_price < 9000000000:
+    elif level_8_min <= avg_price < level_9_min:
         return 8
-    elif 9000000000 <= avg_price < 10000000000:
+    elif level_9_min <= avg_price < level_10_min:
         return 9
-    elif avg_price >= 10000000000:
+    elif level_10_min <= avg_price < level_11_min:
         return 10
+    elif level_11_min <= avg_price < level_12_min:
+        return 11
+    elif level_12_min <= avg_price < level_13_min:
+        return 12
+    elif level_13_min <= avg_price < level_max:
+        return 13
+    elif avg_price >= level_max:
+        return 20
     else:
         return 0
 
