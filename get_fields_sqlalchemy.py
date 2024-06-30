@@ -31,6 +31,14 @@ class Car(Base):
     )
 
 
+class Make(Base):
+    __tablename__ = 'makes'
+
+    id = Column(Integer, primary_key=True)
+    make = Column(Text, unique=True, nullable=False)
+    default_price = Column(Integer)
+
+
 class Dealer(Base):
     __tablename__ = 'dealers'
     id = Column(Integer, primary_key=True)
@@ -245,6 +253,7 @@ def parse_ads(session):
 
 def determine_level(session):
     price_references = aliased(PriceReference)
+    makes = aliased(Make)
     ads = session.query(Ad, Car).join(Car, Ad.car_id == Car.id).all()
 
     for ad, car in ads:
@@ -261,6 +270,15 @@ def determine_level(session):
             ad.accuracy = accuracy
             print(f"level added")
         else:
+            result = session.query(makes.default_price).filter(
+                makes.make == car.make_en,
+            ).first()
+            if result:
+                default_price = result[0]
+                level = calculate_level(default_price)
+                ad.level = level
+                ad.accuracy = 0
+                print(f"level added")
             print(
                 f"No price_reference record found for make: {car.make_en}, model: {car.model_en}, year: {ad.year}")
     session.commit()
