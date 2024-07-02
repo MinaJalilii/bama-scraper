@@ -27,7 +27,7 @@ def connect_to_db():
 def generate_insert_query(table_name, columns, values_list):
     columns_str = ', '.join(columns)
     values_placeholder = ', '.join(['%s'] * len(values_list))
-    query = f"INSERT INTO {table_name} ({columns_str}) VALUES {values_placeholder} ON CONFLICT (ad_code) DO NOTHING"
+    query = f"INSERT INTO {table_name} ({columns_str}) VALUES {values_placeholder} ON CONFLICT (ad_code, version) DO NOTHING"
     return query, values_list
 
 
