@@ -1,140 +1,35 @@
-from datetime import datetime
+from custom_loggers import *
 import pytz
-from sqlalchemy import create_engine, Column, BigInteger, Text, JSON, DateTime, func, ForeignKey, Integer, Float, \
-    UniqueConstraint
-from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import sessionmaker, declarative_base, aliased
-from sqlalchemy.dialects.postgresql import insert
+from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
-from custom_loggers import info_logger, error_logger
-from dotenv import load_dotenv
-import os
-
-load_dotenv('.env')
-
-Base = declarative_base()
-db_url = os.getenv('DB_URL')
-
-
-class Car(Base):
-    __tablename__ = 'cars'
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    make_en = Column(Text, nullable=False)
-    make_fa = Column(Text, nullable=False)
-    model_en = Column(Text, nullable=False)
-    model_fa = Column(Text, nullable=False)
-    keywords = Column(Text)
-    title_fa = Column(Text, nullable=False)
-    title_en = Column(Text, nullable=False)
-    __table_args__ = (
-        UniqueConstraint('make_fa', 'model_fa', name='uq_make_model'),
-    )
-
-
-class Make(Base):
-    __tablename__ = 'makes'
-
-    id = Column(Integer, primary_key=True)
-    make = Column(Text, unique=True, nullable=False)
-    default_price = Column(Integer)
-
-
-class Dealer(Base):
-    __tablename__ = 'dealers'
-    id = Column(Integer, primary_key=True)
-    bama_id = Column(Integer, nullable=False, unique=True)
-    name = Column(Text)
-    type = Column(Text)
-    score = Column(Float)
-    address = Column(Text)
-    ad_count = Column(Integer)
-    package_type = Column(Text)
-
-
-class RawAd(Base):
-    __tablename__ = 'raw_ads'
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    raw_data = Column(JSONB, nullable=False)
-    ad_code = Column(Text, nullable=False, unique=True)
-    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
-    process_at = Column(DateTime, nullable=True, default=None)
-
-
-class Ad(Base):
-    __tablename__ = 'ads'
-    id = Column(BigInteger, primary_key=True, autoincrement=True, nullable=False)
-    title = Column(Text, nullable=False)
-    price = Column(BigInteger, nullable=False)
-    level = Column(Integer, nullable=True)
-    accuracy = Column(Integer, nullable=True)
-    price_type = Column(Text, nullable=False)
-    location = Column(Text, nullable=False)
-    dealer_type = Column(Text, nullable=False)
-    year = Column(Text, nullable=False)
-    mileage = Column(Text, nullable=False)
-    ad_image = Column(Text, nullable=True)
-    images = Column(JSONB, default=list, nullable=True)
-    modified_date = Column(DateTime(timezone=False), nullable=False)
-    code = Column(Text, nullable=False, unique=True)
-    car_id = Column(BigInteger, ForeignKey('cars.id'), nullable=False)
-    dealer_id = Column(BigInteger, ForeignKey('dealers.id'), nullable=True)
-
-
-class PriceReference(Base):
-    __tablename__ = 'price_reference'
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    car_id = Column(BigInteger, ForeignKey('cars.id'), nullable=False)
-    year = Column(Text, nullable=False)
-    avg_price = Column(BigInteger, nullable=False)
-    min_price = Column(BigInteger, nullable=False)
-    max_price = Column(BigInteger, nullable=False)
-    count = Column(Integer, nullable=True)
-    __table_args__ = (
-        UniqueConstraint('car_id', 'year', name='uq_car_id_year'),
-    )
-
-
-engine = create_engine(db_url)
-Session = sessionmaker(bind=engine)
-Base.metadata.create_all(engine)
-session = Session()
+from sqlalchemy.dialects.postgresql import insert
+from models import *
 
 
 def get_car_id(make, model):
-    car = session.query(Car.id).filter(Car.make_fa == make, Car.model_fa == model).first()
+    car = Session.query(Car.id).filter(Car.make_fa == make, Car.model_fa == model).first()
     if not car:
         return None
     return car.id
 
 
 def get_dealer_id(bama_id):
-    dealer = session.query(Dealer.id).filter(Dealer.bama_id == bama_id).first()
+    dealer = Session.query(Dealer.id).filter(Dealer.bama_id == bama_id).first()
     return dealer.id
-
-
-def calculate_level(avg_price):
-    level_price_steps = os.getenv('LEVEL_PRICE_STEPS',
-                                  '0,300000000,600000000,1000000000,3000000000,5000000000,7000000000,9000000000,'
-                                  '11000000000,13000000000,15000000000,17000000000,19000000000,100000000000')
-
-    levels = [int(step) for step in level_price_steps.split(',')]
-
-    if avg_price is None:
-        return None
-
-    for i in range(len(levels) - 1):
-        if levels[i] <= avg_price < levels[i + 1]:
-            return i + 1
-
-    if avg_price >= levels[-1]:
-        return 20
-
-    return 0
 
 
 def parse_ads(session):
     try:
-        raw_ads = session.query(RawAd.id, RawAd.raw_data, RawAd.ad_code).filter(RawAd.process_at.is_(None))
+        # raw_ads = Session.query(RawAd.id, RawAd.raw_data, RawAd.ad_code).filter(RawAd.process_at.is_(None))
+        subquery = session.query(
+            RawAd.ad_code,
+            func.max(RawAd.version).label('max_version')
+        ).group_by(RawAd.ad_code).subquery()
+
+        raw_ads = session.query(RawAd.id, RawAd.raw_data, RawAd.ad_code).join(
+            subquery,
+            (RawAd.ad_code == subquery.c.ad_code) & (RawAd.version == subquery.c.max_version)
+        ).filter(RawAd.process_at.is_(None))
         for raw_ad in raw_ads:
             raw_id, raw_data, ad_code = raw_ad
             if raw_data is not None:
@@ -145,8 +40,6 @@ def parse_ads(session):
                 if raw_data.get('price', {}).get('type') == 'lumpsum':
                     price = int(raw_data.get('price').get('price').replace(',', ''))
                     price_type = 'with price'
-                    if price < 1000000000:
-                        continue
                 elif raw_data.get('price', {}).get('type') == 'installment':
                     price_type = 'installment'
                 elif raw_data.get('price', {}).get('type') == 'negotiable':
@@ -223,78 +116,4 @@ def parse_ads(session):
         session.close()
 
 
-def determine_level(session):
-    price_references = aliased(PriceReference)
-    makes = aliased(Make)
-    ads = session.query(Ad, Car).join(Car, Ad.car_id == Car.id).all()
-
-    for ad, car in ads:
-        result = session.query(price_references.avg_price).filter(
-            price_references.car_id == car.id,
-            price_references.year == ad.year
-        ).first()
-
-        if result:
-            avg_price = result[0]
-            level = calculate_level(avg_price)
-            if ad.price == 0 and (ad.price_type == 'negotiable' or ad.price_type == 'installment'):
-                accuracy = 0
-            else:
-                accuracy = 100 - (abs(((ad.price * 100) // avg_price) - 100))
-            ad.level = level
-            ad.accuracy = accuracy
-            print(f"level added")
-        else:
-            result = session.query(makes.default_price).filter(
-                makes.make == car.make_en,
-            ).first()
-            if result:
-                default_price = result[0]
-                level = calculate_level(default_price)
-                ad.level = level
-                ad.accuracy = 0
-                print(f"level added")
-            print(
-                f"No price_reference record found for make: {car.make_en}, model: {car.model_en}, year: {ad.year}")
-    session.commit()
-    session.close()
-
-
-def save_price(session):
-    query = session.query(
-        func.count(Car.id).label('ad_count'),
-        Car.id,
-        func.round(func.avg(Ad.price)).label('average_price'),
-        func.min(Ad.price).label('min_price'),
-        func.max(Ad.price).label('max_price'),
-        Ad.year
-    ).join(Car).filter(
-        Ad.price_type == 'with price',
-        Ad.price >= 1000000000
-    ).group_by(
-        Car.id,
-        Ad.year
-    )
-    try:
-        for count, car_id, average_price, min_price, max_price, year in query:
-            price_stmt = insert(PriceReference).values(
-                count=count,
-                car_id=car_id,
-                avg_price=int(average_price),
-                min_price=int(min_price),
-                max_price=int(max_price),
-                year=year,
-            ).on_conflict_do_nothing(index_elements=['car_id', 'year'])
-            session.execute(price_stmt)
-            print(f"added -> {car_id} - {year}")
-        session.commit()
-        info_logger.info("Price references inserted successfully.")
-    except Exception as e:
-        session.rollback()
-        error_logger.error(f"Error occurred: {e}")
-        print(f"error: {e}")
-    finally:
-        session.close()
-
-
-determine_level(session)
+parse_ads(Session)
