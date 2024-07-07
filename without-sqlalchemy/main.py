@@ -6,7 +6,7 @@ import sys
 from dotenv import load_dotenv
 import os
 
-load_dotenv('.env')
+load_dotenv('../.env')
 
 
 def connect_to_db():

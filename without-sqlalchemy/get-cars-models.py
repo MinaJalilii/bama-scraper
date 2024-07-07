@@ -3,7 +3,7 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-load_dotenv('.env')
+load_dotenv('../.env')
 
 
 def parse_vehicles(url):
