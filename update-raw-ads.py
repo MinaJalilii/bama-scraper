@@ -1,19 +1,10 @@
+import requests
 import requests_html
 import json
 import signal
 import sys
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from mainalchemy import RawAd
-
-load_dotenv('.env')
-
-DATABASE_URL = os.getenv("DB_URL")
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
-Base = declarative_base()
+from models import RawAd, Session
+from custom_loggers import info_logger
 
 
 def fetch_latest_ad_by_code(session, ad_code):
@@ -28,7 +19,8 @@ def insert_updated_ad(session, new_ad, new_version):
         version=new_version
     )
     session.add(new_record)
-    print(f"updated {new_ad['detail']['code']}")
+    info_logger.info(f"Updated {new_ad['detail']['code']} to version {new_version}")
+    print(f"Updated {new_ad['detail']['code']} to version {new_version}")
     session.commit()
 
 
@@ -43,33 +35,42 @@ def update_ad_data(session, ads_list):
 
 
 def update_bama_data(url):
-    session = Session()
     try:
         requests_session = requests_html.HTMLSession()
         page = 0
         while True:
             try:
+                info_logger.info("Start updating ads....")
                 response = requests_session.get(f'{url}?pageIndex={page}')
                 response.raise_for_status()
                 data = response.json()
                 ads = data['data']['ads']
 
                 if not ads:
+                    print(f"No more ads found. Exiting loop.")
                     break
 
                 ads_list = [ad for ad in ads if ad['type'] == 'ad']
-                update_ad_data(session, ads_list)
+                if not ads_list:
+                    print(f"No more 'ad' type ads found. Exiting loop.")
+                    break
+
+                update_ad_data(Session, ads_list)
 
                 print('Page:', page)
                 page += 1
             except KeyboardInterrupt:
                 print("KeyboardInterrupt detected. Exiting...")
                 sys.exit(0)
+            except requests.exceptions.RequestException as e:
+                print(f"Request error: {e}. Retrying page {page}...")
+                continue
             except Exception as e:
                 print(f"Error fetching or processing data: {e}")
                 break
     finally:
-        session.close()
+        Session.close()
+        info_logger.info("Finish updating ads....")
 
 
 def sigterm_handler(signum, frame):
