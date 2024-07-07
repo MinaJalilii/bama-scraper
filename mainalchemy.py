@@ -1,93 +1,77 @@
-import requests_html
+from sqlalchemy.dialects.postgresql import insert as pg_insert
+from sqlalchemy.exc import SQLAlchemyError
+from requests_html import HTMLSession
 import json
 import signal
 import sys
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine, Column, Integer, BigInteger, Text, DateTime, UniqueConstraint
-from sqlalchemy.dialects.postgresql import insert, JSONB
-from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy.sql import func
-
-load_dotenv('.env')
-
-DATABASE_URL = os.getenv('DB_URL')
-
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
-Base = declarative_base()
+from models import *
 
 
-class RawAd(Base):
-    __tablename__ = 'raw_ads'
-
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    raw_data = Column(JSONB, nullable=False)
-    ad_code = Column(Text, nullable=False)
-    process_at = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
-    version = Column(Integer, nullable=False, default=0)
-
-    __table_args__ = (UniqueConstraint('ad_code', 'version', name='unique_ad_code_version'),)
-
-
-Base.metadata.create_all(engine)
+def connect_to_db():
+    try:
+        return Session
+    except SQLAlchemyError as e:
+        print(f"Error connecting to the database: {e}")
+        return None
 
 
 def insert_ad_data(session, ads_list):
-    stmt = insert(RawAd).values(ads_list).on_conflict_do_nothing(index_elements=['ad_code', 'version'])
-    result = session.execute(stmt)
-    session.commit()
-    return result.rowcount
+    try:
+        insert_stmt = pg_insert(RawAd).values(ads_list)
+        on_conflict_stmt = insert_stmt.on_conflict_do_nothing(
+            index_elements=['ad_code', 'version']
+        )
+        result = session.execute(on_conflict_stmt)
+        session.commit()
+        return result.rowcount
+    except SQLAlchemyError as e:
+        print(f"Error inserting data: {e}")
+        session.rollback()
+        return
 
 
 def scrape_bama_data(url):
-    session = Session()
+    session = connect_to_db()
+    if session is None:
+        return
     try:
-        requests_session = requests_html.HTMLSession()
-        page = 0
-        repeat_counter = 0
+        html_session = HTMLSession()
+        j = 0
+        s = 0
         while True:
             try:
-                response = requests_session.get(f'{url}?pageIndex={page}')
-                response.raise_for_status()
-                data = response.json()
-                ads = data['data']['ads']
-
+                r = html_session.get(f'{url}?pageIndex={j}')
+                r.raise_for_status()
+                js = r.json()
+                ads_list = []
+                ads = js['data']['ads']
                 if not ads:
                     break
-
-                ads_list = []
                 for ad in ads:
                     if ad['type'] == 'ad':
-                        ad_code = ad['detail']['code']
-                        ad = json.dumps(ad)
-                        ads_list.append({'raw_data': ad, 'ad_code': ad_code})
-
+                        code = ad['detail']['code']
+                        ads_list.append({'raw_data': ad, 'ad_code': code})
+                    else:
+                        continue
                 result = insert_ad_data(session, ads_list)
                 if result == 0:
-                    repeat_counter += 1
+                    s += 1
                 else:
-                    repeat_counter = 0
-
-                print('Page:', page)
-                print('Repeat counter:', repeat_counter)
+                    s = 0
+                print('page:', j)
+                print('repeat counter:', s)
                 print('Insert result:', result)
                 print('----------------------')
-
-                if repeat_counter >= 3:
+                if s >= 5:
                     print("3 repeated pages with zero result detected. Exiting loop.")
                     break
-
-                page += 1
+                j += 1
             except KeyboardInterrupt:
                 print("KeyboardInterrupt detected. Exiting...")
                 sys.exit(0)
-            except Exception as e:
-                print(f"Error fetching or processing data: {e}")
-                break
     finally:
-        session.close()
+        if session:
+            session.close()
 
 
 def sigterm_handler(signum, frame):
