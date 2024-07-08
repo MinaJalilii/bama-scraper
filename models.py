@@ -31,7 +31,7 @@ class Make(Base):
 
     id = Column(Integer, primary_key=True)
     make = Column(Text, unique=True, nullable=False)
-    default_price = Column(Integer)
+    default_price = Column(BigInteger)
 
 
 class Dealer(Base):

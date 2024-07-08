@@ -27,39 +27,48 @@ def determine_level(session):
     info_logger.info(f"Start determining levels....")
     price_references = aliased(PriceReference)
     makes = aliased(Make)
-    ads = session.query(Ad, Car).join(Car, Ad.car_id == Car.id).all()
+    ads = session.query(Ad, Car).join(Car, Ad.car_id == Car.id).filter(
+        (Ad.level.is_(None)) | (Ad.accuracy.is_(None))
+    ).all()
     for ad, car in ads:
-        result = session.query(price_references.avg_price).filter(
-            price_references.car_id == car.id,
-            price_references.year == ad.year
-        ).first()
+        avg_price = None
 
-        if result:
-            avg_price = result[0]
-            level = calculate_level(avg_price)
-            if ad.price == 0 and (ad.price_type == 'negotiable' or ad.price_type == 'installment'):
-                accuracy = 0
-            else:
-                accuracy = 100 - (abs(((ad.price * 100) // avg_price) - 100))
-            ad.level = level
-            ad.accuracy = accuracy
-            print(f"level added")
-            info_logger.info(f"level added")
-        else:
-            result = session.query(makes.default_price).filter(
-                makes.make == car.make_en,
+        if ad.level is None or ad.accuracy is None:
+            result = session.query(price_references.avg_price).filter(
+                price_references.car_id == car.id,
+                price_references.year == ad.year
             ).first()
+
             if result:
-                default_price = result[0]
-                level = calculate_level(default_price)
-                ad.level = level
+                avg_price = result[0]
+            else:
+                result = session.query(makes.default_price).filter(
+                    makes.make == car.make_en,
+                ).first()
+                if result:
+                    avg_price = result[0]
+
+            if avg_price is None:
+                info_logger.info(
+                    f"No price reference or default price found for make: {car.make_en}, model: {car.model_en}, year: {ad.year}")
+                print(
+                    f"No price reference or default price found for make: {car.make_en}, model: {car.model_en}, year: {ad.year}")
+
+        if ad.level is None and avg_price is not None:
+            level = calculate_level(avg_price)
+            ad.level = level
+            print(f"Level added for {ad.code}")
+            info_logger.info(f"Level added for {ad.code}")
+
+        if ad.accuracy is None:
+            if ad.price == 0 and ad.price_type in ('negotiable', 'installment'):
                 ad.accuracy = 0
-                print(f"level added")
-                info_logger.info(f"level added")
-            print(
-                f"No price_reference record found for make: {car.make_en}, model: {car.model_en}, year: {ad.year}")
-            info_logger.info(
-                f"No price_reference record found for make: {car.make_en}, model: {car.model_en}, year: {ad.year}")
+            elif avg_price:
+                ad.accuracy = 100 - abs((ad.price * 100 // avg_price) - 100)
+            else:
+                ad.accuracy = 0
+            print(f"Accuracy added for {ad.code}")
+            info_logger.info(f"Accuracy added for {ad.code}")
     session.commit()
     session.close()
     info_logger.info(f"Finish determining levels....")
