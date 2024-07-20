@@ -63,7 +63,7 @@ def scrape_bama_data(url):
                 print('Insert result:', result)
                 print('----------------------')
                 if s >= 5:
-                    print("3 repeated pages with zero result detected. Exiting loop.")
+                    print("5 repeated pages with zero result detected. Exiting loop.")
                     break
                 j += 1
             except KeyboardInterrupt:

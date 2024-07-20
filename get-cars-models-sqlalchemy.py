@@ -1,5 +1,7 @@
 import requests_html
+from sqlalchemy.dialects.postgresql import insert
 from models import *
+from custom_loggers import *
 
 
 def parse_vehicles(url):
