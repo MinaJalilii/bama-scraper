@@ -1,7 +1,13 @@
 venv
 <<<<<<< HEAD
+<<<<<<< HEAD
 .idea
 =======
 .idea/
 >>>>>>> origin/feature/base-codes
 __pycache__/
+=======
+.idea/
+__pycache__/
+.env/
+>>>>>>> origin/feature/create-dotenv
