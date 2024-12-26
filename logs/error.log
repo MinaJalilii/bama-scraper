@@ -1,1 +1,134 @@
-2024-06-23 10:35:38,221 - error - ERROR - newcar(نیسان، ترانو)
+2024-06-24 09:21:39,203 - error - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:21:39,204 - error - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:53:33,717 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:53:33,718 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:57:00,206 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:57:00,207 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:58:17,102 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 09:58:17,104 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:05:30,652 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:05:30,654 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:10:43,417 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:10:43,418 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:11:41,893 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:11:41,894 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:15:14,718 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:15:21,674 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:24:59,823 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:25:05,033 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:32:29,443 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 10:32:45,142 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 11:28:59,918 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 11:29:07,542 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 12:21:01,346 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 12:21:08,861 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 12:22:27,837 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-24 12:22:27,847 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 12:35:00,166 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 12:35:23,035 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:35:23,038 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:35:23,064 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:35:28,822 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 12:35:38,714 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 12:35:39,532 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:41:30,412 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 12:41:30,418 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:41:30,419 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:41:30,420 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 12:41:30,425 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 12:41:30,434 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 12:41:30,436 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 13:39:37,963 - error_logger - ERROR - Error occurred: Unconsumed column names: count
+2024-06-26 14:04:51,262 - error_logger - ERROR - Error occurred: Foreign key associated with column 'price_reference.car_id' could not find table 'cars' with which to generate a foreign key to target column 'id'
+2024-06-26 14:07:15,085 - error_logger - ERROR - Error occurred: Foreign key associated with column 'price_reference.car_id' could not find table 'cars' with which to generate a foreign key to target column 'id'
+2024-06-26 14:09:06,208 - error_logger - ERROR - Error occurred: Foreign key associated with column 'price_reference.car_id' could not find table 'cars' with which to generate a foreign key to target column 'id'
+2024-06-26 14:12:55,591 - error_logger - ERROR - Error occurred: Foreign key associated with column 'price_reference.car_id' could not find table 'cars' with which to generate a foreign key to target column 'id'
+2024-06-26 14:23:24,470 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 14:23:24,475 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:23:24,475 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:23:24,476 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:23:24,480 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 14:23:24,488 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 14:23:24,490 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:28:56,091 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 14:28:56,096 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:28:56,097 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:28:56,098 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:28:56,101 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 14:28:56,110 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 14:28:56,112 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:30:57,564 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 14:30:57,571 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:30:57,573 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:30:57,574 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 14:30:57,582 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 14:30:57,595 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 14:30:57,597 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:03:55,676 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 15:03:55,682 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:03:55,683 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:03:55,684 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:03:55,688 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 15:03:55,697 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 15:03:55,699 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:35:05,243 - error_logger - ERROR - newcar(لندرور، رنجرور اسپرت)
+2024-06-26 15:35:19,229 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 15:35:29,248 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:35:31,568 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:35:31,677 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:35:37,341 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 15:35:49,481 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 15:35:53,773 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:45:15,011 - error_logger - ERROR - newcar(لندرور، رنجرور اسپرت)
+2024-06-26 15:45:15,014 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 15:45:15,017 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:45:15,020 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:45:15,021 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:45:15,024 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 15:45:15,033 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 15:45:15,037 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 15:45:15,212 - error_logger - ERROR - Error occurred: not enough values to unpack (expected 5, got 3)
+2024-06-26 15:47:15,412 - error_logger - ERROR - Error occurred: not enough values to unpack (expected 5, got 3)
+2024-06-26 15:49:04,659 - error_logger - ERROR - Error occurred: (psycopg2.errors.InvalidSchemaName) schema "func" does not exist
+LINE 1: SELECT round(avg(ads.price)) AS average_price, func.max(ads....
+                                                       ^
+
+[SQL: SELECT round(avg(ads.price)) AS average_price, func.max(ads.price) AS max_price, func.min(ads.price) AS min_price, cars.id AS cars_id, ads.year AS ads_year 
+FROM ads JOIN cars ON cars.id = ads.car_id 
+WHERE ads.price_type = %(price_type_1)s AND ads.price >= %(price_1)s GROUP BY cars.id, ads.year]
+[parameters: {'price_type_1': 'with price', 'price_1': 1000000000}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2024-06-26 15:49:57,063 - error_logger - ERROR - Error occurred: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "uq_car_id_year"
+DETAIL:  Key (car_id, year)=(4500000000, 2013) already exists.
+
+[SQL: INSERT INTO price_reference (car_id, year, avg_price, min_price, max_price) SELECT p0::BIGINT, p1::TEXT, p2::BIGINT, p3::BIGINT, p4::BIGINT FROM (VALUES (%(car_id__0)s, %(year__0)s, %(avg_price__0)s, %(min_price__0)s, %(max_price__0)s, 0), (%(car_id_ ... 92622 characters truncated ...  p3, p4, sen_counter) ORDER BY sen_counter RETURNING price_reference.id, price_reference.id AS id__1]
+[parameters: {'min_price__0': 1420000000, 'max_price__0': 960, 'year__0': '2015', 'car_id__0': Decimal('1470000000'), 'avg_price__0': 1550000000, 'min_price__1': 1000000000, 'max_price__1': 584, 'year__1': '2012', 'car_id__1': Decimal('1000000000'), 'avg_price__1': 1000000000, 'min_price__2': 3000000000, 'max_price__2': 912, 'year__2': '2013', 'car_id__2': Decimal('3750000000'), 'avg_price__2': 4400000000, 'min_price__3': 4100000000, 'max_price__3': 919, 'year__3': '2018', 'car_id__3': Decimal('4757142857'), 'avg_price__3': 5950000000, 'min_price__4': 1150000000, 'max_price__4': 886, 'year__4': '1387', 'car_id__4': Decimal('1255000000'), 'avg_price__4': 1550000000, 'min_price__5': 4700000000, 'max_price__5': 663, 'year__5': '2007', 'car_id__5': Decimal('4775000000'), 'avg_price__5': 4850000000, 'min_price__6': 2450000000, 'max_price__6': 827, 'year__6': '2016', 'car_id__6': Decimal('2575000000'), 'avg_price__6': 2700000000, 'min_price__7': 1700000000, 'max_price__7': 854, 'year__7': '1386', 'car_id__7': Decimal('1700000000'), 'avg_price__7': 1700000000, 'min_price__8': 1242000000, 'max_price__8': 923, 'year__8': '1403', 'car_id__8': Decimal('1279833333'), 'avg_price__8': 1600000000, 'min_price__9': 16000000000, 'max_price__9': 737, 'year__9': '2013', 'car_id__9': Decimal('19587500000'), 'avg_price__9': 35000000000 ... 4615 parameters truncated ... 'min_price__933': 8500000000, 'max_price__933': 653, 'year__933': '2016', 'car_id__933': Decimal('10050000000'), 'avg_price__933': 11900000000, 'min_price__934': 2350000000, 'max_price__934': 644, 'year__934': '2023', 'car_id__934': Decimal('2563333333'), 'avg_price__934': 2940000000, 'min_price__935': 2500000000, 'max_price__935': 810, 'year__935': '2017', 'car_id__935': Decimal('2500000000'), 'avg_price__935': 2500000000, 'min_price__936': 2500000000, 'max_price__936': 754, 'year__936': '2023', 'car_id__936': Decimal('2760000000'), 'avg_price__936': 3200000000, 'min_price__937': 3600000000, 'max_price__937': 625, 'year__937': '2012', 'car_id__937': Decimal('3600000000'), 'avg_price__937': 3600000000, 'min_price__938': 1200000000, 'max_price__938': 601, 'year__938': '1402', 'car_id__938': Decimal('1415336170'), 'avg_price__938': 1600000000, 'min_price__939': 1280000000, 'max_price__939': 761, 'year__939': '1399', 'car_id__939': Decimal('1367884615'), 'avg_price__939': 1520000000, 'min_price__940': 1100000000, 'max_price__940': 1050, 'year__940': '1385', 'car_id__940': Decimal('1263333333'), 'avg_price__940': 1450000000, 'min_price__941': 1150000000, 'max_price__941': 907, 'year__941': '1395', 'car_id__941': Decimal('1150000000'), 'avg_price__941': 1150000000, 'min_price__942': 1510000000, 'max_price__942': 1086, 'year__942': '1397', 'car_id__942': Decimal('1798470588'), 'avg_price__942': 2100000000}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-06-26 15:53:57,813 - error_logger - ERROR - Error occurred: (psycopg2.errors.ForeignKeyViolation) insert or update on table "price_reference" violates foreign key constraint "price_reference_car_id_fkey"
+DETAIL:  Key (car_id)=(1470000000) is not present in table "cars".
+
+[SQL: INSERT INTO price_reference (car_id, year, avg_price, min_price, max_price) VALUES (%(car_id)s, %(year)s, %(avg_price)s, %(min_price)s, %(max_price)s) RETURNING price_reference.id]
+[parameters: {'car_id': Decimal('1470000000'), 'year': '2015', 'avg_price': 1550000000, 'min_price': 1420000000, 'max_price': 960}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-06-26 15:55:03,268 - error_logger - ERROR - Error occurred: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "uq_car_id_year"
+DETAIL:  Key (car_id, year)=(4500000000, 2013) already exists.
+
+[SQL: INSERT INTO price_reference (car_id, year, avg_price, min_price, max_price) SELECT p0::BIGINT, p1::TEXT, p2::BIGINT, p3::BIGINT, p4::BIGINT FROM (VALUES (%(car_id__0)s, %(year__0)s, %(avg_price__0)s, %(min_price__0)s, %(max_price__0)s, 0), (%(car_id_ ... 92622 characters truncated ...  p3, p4, sen_counter) ORDER BY sen_counter RETURNING price_reference.id, price_reference.id AS id__1]
+[parameters: {'car_id__0': Decimal('1470000000'), 'max_price__0': 960, 'year__0': '2015', 'min_price__0': 1420000000, 'avg_price__0': 1550000000, 'car_id__1': Decimal('1000000000'), 'max_price__1': 584, 'year__1': '2012', 'min_price__1': 1000000000, 'avg_price__1': 1000000000, 'car_id__2': Decimal('3750000000'), 'max_price__2': 912, 'year__2': '2013', 'min_price__2': 3000000000, 'avg_price__2': 4400000000, 'car_id__3': Decimal('4757142857'), 'max_price__3': 919, 'year__3': '2018', 'min_price__3': 4100000000, 'avg_price__3': 5950000000, 'car_id__4': Decimal('1255000000'), 'max_price__4': 886, 'year__4': '1387', 'min_price__4': 1150000000, 'avg_price__4': 1550000000, 'car_id__5': Decimal('4775000000'), 'max_price__5': 663, 'year__5': '2007', 'min_price__5': 4700000000, 'avg_price__5': 4850000000, 'car_id__6': Decimal('2575000000'), 'max_price__6': 827, 'year__6': '2016', 'min_price__6': 2450000000, 'avg_price__6': 2700000000, 'car_id__7': Decimal('1700000000'), 'max_price__7': 854, 'year__7': '1386', 'min_price__7': 1700000000, 'avg_price__7': 1700000000, 'car_id__8': Decimal('1279833333'), 'max_price__8': 923, 'year__8': '1403', 'min_price__8': 1242000000, 'avg_price__8': 1600000000, 'car_id__9': Decimal('19587500000'), 'max_price__9': 737, 'year__9': '2013', 'min_price__9': 16000000000, 'avg_price__9': 35000000000 ... 4615 parameters truncated ... 'car_id__933': Decimal('10050000000'), 'max_price__933': 653, 'year__933': '2016', 'min_price__933': 8500000000, 'avg_price__933': 11900000000, 'car_id__934': Decimal('2563333333'), 'max_price__934': 644, 'year__934': '2023', 'min_price__934': 2350000000, 'avg_price__934': 2940000000, 'car_id__935': Decimal('2500000000'), 'max_price__935': 810, 'year__935': '2017', 'min_price__935': 2500000000, 'avg_price__935': 2500000000, 'car_id__936': Decimal('2760000000'), 'max_price__936': 754, 'year__936': '2023', 'min_price__936': 2500000000, 'avg_price__936': 3200000000, 'car_id__937': Decimal('3600000000'), 'max_price__937': 625, 'year__937': '2012', 'min_price__937': 3600000000, 'avg_price__937': 3600000000, 'car_id__938': Decimal('1415336170'), 'max_price__938': 601, 'year__938': '1402', 'min_price__938': 1200000000, 'avg_price__938': 1600000000, 'car_id__939': Decimal('1367884615'), 'max_price__939': 761, 'year__939': '1399', 'min_price__939': 1280000000, 'avg_price__939': 1520000000, 'car_id__940': Decimal('1263333333'), 'max_price__940': 1050, 'year__940': '1385', 'min_price__940': 1100000000, 'avg_price__940': 1450000000, 'car_id__941': Decimal('1150000000'), 'max_price__941': 907, 'year__941': '1395', 'min_price__941': 1150000000, 'avg_price__941': 1150000000, 'car_id__942': Decimal('1798470588'), 'max_price__942': 1086, 'year__942': '1397', 'min_price__942': 1510000000, 'avg_price__942': 2100000000}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-06-26 16:33:06,792 - error_logger - ERROR - Error occurred: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "uq_car_id_year"
+DETAIL:  Key (car_id, year)=(960, 2015) already exists.
+
+[SQL: INSERT INTO price_reference (car_id, year, avg_price, min_price, max_price) SELECT p0::BIGINT, p1::TEXT, p2::BIGINT, p3::BIGINT, p4::BIGINT FROM (VALUES (%(car_id__0)s, %(year__0)s, %(avg_price__0)s, %(min_price__0)s, %(max_price__0)s, 0), (%(car_id_ ... 92622 characters truncated ...  p3, p4, sen_counter) ORDER BY sen_counter RETURNING price_reference.id, price_reference.id AS id__1]
+[parameters: {'max_price__0': 1550000000, 'car_id__0': 960, 'min_price__0': 1420000000, 'year__0': '2015', 'avg_price__0': 1470000000, 'max_price__1': 1000000000, 'car_id__1': 584, 'min_price__1': 1000000000, 'year__1': '2012', 'avg_price__1': 1000000000, 'max_price__2': 4400000000, 'car_id__2': 912, 'min_price__2': 3000000000, 'year__2': '2013', 'avg_price__2': 3750000000, 'max_price__3': 5950000000, 'car_id__3': 919, 'min_price__3': 4100000000, 'year__3': '2018', 'avg_price__3': 4757142857, 'max_price__4': 1550000000, 'car_id__4': 886, 'min_price__4': 1150000000, 'year__4': '1387', 'avg_price__4': 1255000000, 'max_price__5': 4850000000, 'car_id__5': 663, 'min_price__5': 4700000000, 'year__5': '2007', 'avg_price__5': 4775000000, 'max_price__6': 2700000000, 'car_id__6': 827, 'min_price__6': 2450000000, 'year__6': '2016', 'avg_price__6': 2575000000, 'max_price__7': 1700000000, 'car_id__7': 854, 'min_price__7': 1700000000, 'year__7': '1386', 'avg_price__7': 1700000000, 'max_price__8': 1600000000, 'car_id__8': 923, 'min_price__8': 1242000000, 'year__8': '1403', 'avg_price__8': 1279833333, 'max_price__9': 35000000000, 'car_id__9': 737, 'min_price__9': 16000000000, 'year__9': '2013', 'avg_price__9': 19587500000 ... 4615 parameters truncated ... 'max_price__933': 11900000000, 'car_id__933': 653, 'min_price__933': 8500000000, 'year__933': '2016', 'avg_price__933': 10050000000, 'max_price__934': 2940000000, 'car_id__934': 644, 'min_price__934': 2350000000, 'year__934': '2023', 'avg_price__934': 2563333333, 'max_price__935': 2500000000, 'car_id__935': 810, 'min_price__935': 2500000000, 'year__935': '2017', 'avg_price__935': 2500000000, 'max_price__936': 3200000000, 'car_id__936': 754, 'min_price__936': 2500000000, 'year__936': '2023', 'avg_price__936': 2760000000, 'max_price__937': 3600000000, 'car_id__937': 625, 'min_price__937': 3600000000, 'year__937': '2012', 'avg_price__937': 3600000000, 'max_price__938': 1600000000, 'car_id__938': 601, 'min_price__938': 1200000000, 'year__938': '1402', 'avg_price__938': 1415336170, 'max_price__939': 1520000000, 'car_id__939': 761, 'min_price__939': 1280000000, 'year__939': '1399', 'avg_price__939': 1367884615, 'max_price__940': 1450000000, 'car_id__940': 1050, 'min_price__940': 1100000000, 'year__940': '1385', 'avg_price__940': 1263333333, 'max_price__941': 1150000000, 'car_id__941': 907, 'min_price__941': 1150000000, 'year__941': '1395', 'avg_price__941': 1150000000, 'max_price__942': 2100000000, 'car_id__942': 1086, 'min_price__942': 1510000000, 'year__942': '1397', 'avg_price__942': 1798470588}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-06-26 16:46:35,912 - error_logger - ERROR - newcar(لندرور، رنجرور اسپرت)
+2024-06-26 16:46:35,915 - error_logger - ERROR - newcar(نیسان، GT-R)
+2024-06-26 16:46:35,921 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 16:46:35,924 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 16:46:35,925 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 16:46:35,928 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 16:46:35,936 - error_logger - ERROR - newcar(لندرور، لندرور سری (مونتاژ))
+2024-06-26 16:46:35,941 - error_logger - ERROR - newcar(سانگ یانگ، نیو کوراندو)
+2024-06-26 17:11:01,003 - error_logger - ERROR - Error occurred: set parameter must be a non-empty dictionary or a ColumnCollection such as the `.c.` collection of a Table object
+2024-06-26 17:11:49,241 - error_logger - ERROR - Error occurred: set parameter must be a non-empty dictionary or a ColumnCollection such as the `.c.` collection of a Table object

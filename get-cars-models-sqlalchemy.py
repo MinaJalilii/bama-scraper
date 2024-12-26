@@ -13,18 +13,14 @@ Base = declarative_base()
 
 class Car(Base):
     __tablename__ = 'cars'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    make_en = Column(Text)
-    make_fa = Column(Text)
-    model_en = Column(Text)
-    model_fa = Column(Text)
-    min_price = Column(Integer)
-    max_price = Column(Integer)
-    created_year = Column(Text)
-    level_impact = Column(Text)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    make_en = Column(Text, nullable=False)
+    make_fa = Column(Text, nullable=False)
+    model_en = Column(Text, nullable=False)
+    model_fa = Column(Text, nullable=False)
     keywords = Column(Text)
-    title_fa = Column(Text)
-    title_en = Column(Text)
+    title_fa = Column(Text, nullable=False)
+    title_en = Column(Text, nullable=False)
     __table_args__ = (
         UniqueConstraint('make_fa', 'model_fa', name='uq_make_model'),
     )
@@ -80,9 +76,12 @@ def parse_vehicles(url):
                             title_en=title_en
                         ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
                         session.execute(insert_stmt)
+                        info_logger.info(f"One vehicle added: {title_fa}")
+                        print(f"One vehicle added: {title_fa}")
 
         session.commit()
         info_logger.info("Vehicle parsing completed successfully.")
+        print("Vehicle parsing completed successfully.")
 
     except Exception as e:
         session.rollback()
