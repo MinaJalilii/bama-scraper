@@ -1,2 +1,7 @@
 venv
+<<<<<<< HEAD
 .idea
+=======
+.idea/
+>>>>>>> origin/feature/base-codes
+__pycache__/
