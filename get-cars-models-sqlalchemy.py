@@ -1,41 +1,10 @@
-from sqlalchemy import create_engine, Column, Integer, Text, UniqueConstraint
-from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.dialects.postgresql import insert
 import requests_html
-from config import DB_CONFIG
-from custom_loggers import info_logger, error_logger
-from dotenv import load_dotenv
-import os
-
-load_dotenv('.env')
-Base = declarative_base()
-
-
-class Car(Base):
-    __tablename__ = 'cars'
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    make_en = Column(Text, nullable=False)
-    make_fa = Column(Text, nullable=False)
-    model_en = Column(Text, nullable=False)
-    model_fa = Column(Text, nullable=False)
-    keywords = Column(Text)
-    title_fa = Column(Text, nullable=False)
-    title_en = Column(Text, nullable=False)
-    __table_args__ = (
-        UniqueConstraint('make_fa', 'model_fa', name='uq_make_model'),
-    )
-
-
-db_url = os.getenv('DB_URL')
-
-engine = create_engine(db_url)
-Session = sessionmaker(bind=engine)
-
-Base.metadata.create_all(engine)
+from sqlalchemy.dialects.postgresql import insert
+from models import *
+from custom_loggers import *
 
 
 def parse_vehicles(url):
-    session = Session()
     html_session = requests_html.HTMLSession()
     r = html_session.get(url)
     r.raise_for_status()
@@ -47,7 +16,12 @@ def parse_vehicles(url):
             if brand["type"] == "brand" and "items" in brand:
                 brand_title_fa = brand.get("title", "")
                 brand_value_en = brand.get("value", "")
-
+                make_stmt = insert(Make).values(
+                    make=brand_value_en,
+                    default_price=None
+                ).on_conflict_do_nothing(index_elements=['make'])
+                Session.execute(make_stmt)
+                Session.commit()
                 for item in brand["items"]:
                     if item["type"] == "model":
                         model_fa = item.get("title", "").replace(brand_title_fa, "").strip()
@@ -56,17 +30,7 @@ def parse_vehicles(url):
                         title_en = brand_value_en + '-' + model_en
                         title_fa = brand_title_fa + '-' + model_fa
 
-                        car = Car(
-                            make_fa=brand_title_fa,
-                            make_en=brand_value_en,
-                            model_fa=model_fa,
-                            model_en=model_en,
-                            keywords=keywords_model,
-                            title_fa=title_fa,
-                            title_en=title_en
-                        )
-
-                        insert_stmt = insert(Car).values(
+                        car_stmt = insert(Car).values(
                             make_fa=brand_title_fa,
                             make_en=brand_value_en,
                             model_fa=model_fa,
@@ -75,20 +39,20 @@ def parse_vehicles(url):
                             title_fa=title_fa,
                             title_en=title_en
                         ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
-                        session.execute(insert_stmt)
+                        Session.execute(car_stmt)
                         info_logger.info(f"One vehicle added: {title_fa}")
                         print(f"One vehicle added: {title_fa}")
 
-        session.commit()
+        Session.commit()
         info_logger.info("Vehicle parsing completed successfully.")
         print("Vehicle parsing completed successfully.")
 
     except Exception as e:
-        session.rollback()
+        Session.rollback()
         error_logger.error(f"Error occurred during vehicle parsing: {e}", exc_info=True)
 
     finally:
-        session.close()
+        Session.close()
 
 
 bama_url = 'https://bama.ir/cad/api/filter/vehicle'

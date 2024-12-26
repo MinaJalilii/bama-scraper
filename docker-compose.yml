@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  main-crawler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "mainalchemy.py" ]
+
+  updater-crawler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "update-raw-ads.py" ]
+
+  parser:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "get_fields_sqlalchemy.py" ]
+
+  vehicle-parser:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "get-cars-models-sqlalchemy.py" ]
+
+  determine-level-accuracy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "determine-level.py" ]
+
+  default-price:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "default_price.py" ]
+
+  save-price:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: [ "python", "save-price.py" ]
+
+volumes:
+  postgres_data:
