@@ -1,7 +1,7 @@
 DB_CONFIG = {
-    'dbname': 'bama_scraper',
+    'dbname': 'postgres-db',
     'user': 'postgres',
-    'password': 'aelR/5unCW>_!8?',
+    'password': 'yourpassword',
     'host': 'localhost',
     'port': '5432'
 }
