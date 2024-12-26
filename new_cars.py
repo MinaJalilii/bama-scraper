@@ -1,8 +1,19 @@
 import re
 import psycopg2
 from config import DB_CONFIG
-from sqlalchemy import create_engine, Column, BigInteger, Text, JSON, DateTime, func, ForeignKey, Integer, Float, \
-    UniqueConstraint
+from sqlalchemy import (
+    create_engine,
+    Column,
+    BigInteger,
+    Text,
+    JSON,
+    DateTime,
+    func,
+    ForeignKey,
+    Integer,
+    Float,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.dialects.postgresql import insert
@@ -10,13 +21,13 @@ from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
 import os
 
-load_dotenv('.env')
+load_dotenv(".env")
 
 
 def read_logs_from_file(log_file):
-    pattern = r'newcar\(([^()]*(?:\((?:[^()]*(?:\([^()]*\))?[^()]*)*\))?[^()]*)\)'
+    pattern = r"newcar\(([^()]*(?:\((?:[^()]*(?:\([^()]*\))?[^()]*)*\))?[^()]*)\)"
     newcar_values = []
-    with open(log_file, 'r', encoding='utf-8') as file:
+    with open(log_file, "r", encoding="utf-8") as file:
         content = file.read()
         matches = re.findall(pattern, content)
         for match in matches:
@@ -34,7 +45,7 @@ Session = sessionmaker(bind=engine)
 
 
 class Car(Base):
-    __tablename__ = 'cars'
+    __tablename__ = "cars"
     id = Column(Integer, primary_key=True, autoincrement=True)
     make_en = Column(Text)
     make_fa = Column(Text)
@@ -47,9 +58,7 @@ class Car(Base):
     keywords = Column(Text)
     title_fa = Column(Text)
     title_en = Column(Text)
-    __table_args__ = (
-        UniqueConstraint('make_fa', 'model_fa', name='uq_make_model'),
-    )
+    __table_args__ = (UniqueConstraint("make_fa", "model_fa", name="uq_make_model"),)
 
 
 Base.metadata.create_all(engine)
@@ -60,14 +69,15 @@ def save_to_db(titles):
     session = Session()
     try:
         for i in titles:
-            make_fa, model_fa = map(str.strip, i.split('،', 1))
-            print('make', make_fa)
-            print('model', model_fa)
-            print('--------------------')
-            insert_stmt = insert(Car).values(
-                make_fa=make_fa,
-                model_fa=model_fa
-            ).on_conflict_do_nothing(index_elements=['make_fa', 'model_fa'])
+            make_fa, model_fa = map(str.strip, i.split("،", 1))
+            print("make", make_fa)
+            print("model", model_fa)
+            print("--------------------")
+            insert_stmt = (
+                insert(Car)
+                .values(make_fa=make_fa, model_fa=model_fa)
+                .on_conflict_do_nothing(index_elements=["make_fa", "model_fa"])
+            )
             session.execute(insert_stmt)
         session.commit()
     except SQLAlchemyError as e:
@@ -78,4 +88,4 @@ def save_to_db(titles):
 
 
 # print(read_logs_from_file('logs/error.log'))
-save_to_db(read_logs_from_file('logs/error.log'))
+save_to_db(read_logs_from_file("logs/error.log"))

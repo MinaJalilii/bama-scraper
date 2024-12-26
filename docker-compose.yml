@@ -7,6 +7,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
+    ports:
+      - "5432:5432"
 
   main-crawler:
     build:
@@ -16,7 +18,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "mainalchemy.py" ]
+    command: [ "python3", "mainalchemy.py" ]
 
   updater-crawler:
     build:
@@ -26,7 +28,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "update-raw-ads.py" ]
+    command: [ "python3", "update-raw-ads.py" ]
 
   parser:
     build:
@@ -36,7 +38,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "get_fields_sqlalchemy.py" ]
+    command: [ "python3", "get_fields_sqlalchemy.py" ]
 
   vehicle-parser:
     build:
@@ -46,7 +48,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "get-cars-models-sqlalchemy.py" ]
+    command: [ "python3", "get-cars-models-sqlalchemy.py" ]
 
   determine-level-accuracy:
     build:
@@ -56,7 +58,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "determine-level.py" ]
+    command: [ "python3", "determine-level.py" ]
 
   default-price:
     build:
@@ -66,7 +68,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "default_price.py" ]
+    command: [ "python3", "default_price.py" ]
 
   save-price:
     build:
@@ -76,7 +78,7 @@ services:
       - db
     env_file:
       - .env
-    command: [ "python", "save-price.py" ]
+    command: [ "python3", "save-price.py" ]
 
 volumes:
   postgres_data:

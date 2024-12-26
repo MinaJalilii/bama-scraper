@@ -8,11 +8,12 @@ def populate_default_prices(session):
         makes = session.query(Make).all()
         info_logger.info("Start populating default prices...")
         for make in makes:
-            avg_price = session.query(
-                func.avg(PriceReference.avg_price)
-            ).join(Car, PriceReference.car_id == Car.id).filter(
-                Car.make_en == make.make
-            ).scalar()
+            avg_price = (
+                session.query(func.avg(PriceReference.avg_price))
+                .join(Car, PriceReference.car_id == Car.id)
+                .filter(Car.make_en == make.make)
+                .scalar()
+            )
             if avg_price:
                 make.default_price = int(avg_price)
                 print(f"Default price for {make.make}: {make.default_price}")
